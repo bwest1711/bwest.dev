@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="80" fill="#0f0e0b"/>
+  <path d="M140 180 Q130 192 130 208 L130 380 Q130 396 148 396 L364 396 Q382 396 382 380 L382 208 Q382 192 372 180 Z" fill="#2a2418" stroke="#d4840a" stroke-width="6"/>
+  <rect x="124" y="162" width="264" height="24" rx="8" fill="#1a1510" stroke="#d4840a" stroke-width="4"/>
+  <path d="M200 150 Q210 130 200 110" fill="none" stroke="#f0a830" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+  <path d="M256 140 Q266 118 256 96" fill="none" stroke="#f0a830" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+  <path d="M312 150 Q322 130 312 110" fill="none" stroke="#f0a830" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+  <text x="256" y="310" text-anchor="middle" font-family="Georgia, serif" font-size="100" font-weight="bold" fill="#d4840a" letter-spacing="8">BF</text>
+</svg>
