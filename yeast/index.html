@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yeast Bench — Hoppy Ale Strain Comparison</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#231A12;
+    --ink-soft:#4A3C2E;
+    --paper:#F4EEE0;
+    --foam:#FBF7EE;
+    --card:#FFFDF7;
+    --line:#E0D6C2;
+    --line-strong:#C9BCA0;
+
+    /* family accents */
+    --fam-london:#D69A2E;   /* Boddington / London Ale III */
+    --fam-conan:#D26B45;    /* Conan / Vermont */
+    --fam-modern:#7C5C9E;   /* Modern / thiol */
+    --fam-amer:#6E8B3D;     /* Clean American */
+    --fam-eng:#A45F2C;      /* Clean English */
+
+    --good:#6E8B3D;
+    --warn:#C57A1E;
+    --shadow:0 1px 0 rgba(35,26,18,.04), 0 8px 24px -16px rgba(35,26,18,.45);
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(214,154,46,.10), transparent 60%),
+      radial-gradient(900px 500px at -5% 10%, rgba(110,139,61,.08), transparent 55%),
+      var(--paper);
+    color:var(--ink);
+    font-family:"Inter",system-ui,-apple-system,sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+  /* ---------- header ---------- */
+  header.hero{padding:54px 0 26px;border-bottom:1.5px solid var(--line-strong)}
+  .eyebrow{
+    font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--ink-soft);margin:0 0 14px
+  }
+  .eyebrow b{color:var(--fam-london)}
+  h1{
+    font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
+    font-size:clamp(34px,6vw,62px);line-height:.98;letter-spacing:-.02em;
+    margin:0 0 16px;max-width:14ch
+  }
+  h1 .sub{display:block;color:var(--fam-conan)}
+  .lede{font-size:17px;max-width:64ch;color:var(--ink-soft);margin:0}
+
+  .disclaimer{
+    margin-top:22px;display:flex;gap:12px;align-items:flex-start;
+    background:rgba(197,122,30,.09);border:1px solid rgba(197,122,30,.3);
+    border-radius:12px;padding:13px 16px;max-width:74ch
+  }
+  .disclaimer .dot{
+    flex:none;margin-top:3px;width:9px;height:9px;border-radius:50%;
+    background:var(--warn);box-shadow:0 0 0 4px rgba(197,122,30,.18)
+  }
+  .disclaimer p{margin:0;font-size:13.5px;color:var(--ink-soft)}
+  .disclaimer b{color:var(--ink)}
+
+  /* ---------- controls ---------- */
+  .controls{position:sticky;top:0;z-index:40;background:rgba(244,238,224,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:16px 0}
+  .controls .wrap{display:flex;flex-wrap:wrap;gap:14px 20px;align-items:center}
+  .ctrl-group{display:flex;flex-direction:column;gap:6px}
+  .ctrl-group .label{font-family:"Space Mono",monospace;font-size:10.5px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+  .pills{display:flex;flex-wrap:wrap;gap:7px}
+  .pill{
+    font:inherit;font-size:13px;cursor:pointer;border:1.5px solid var(--line-strong);
+    background:var(--foam);color:var(--ink-soft);padding:6px 13px;border-radius:999px;
+    transition:.15s;white-space:nowrap
+  }
+  .pill:hover{border-color:var(--ink-soft);color:var(--ink)}
+  .pill.on{background:var(--ink);color:var(--foam);border-color:var(--ink)}
+  .pill.usecase.on{background:var(--fam-conan);border-color:var(--fam-conan)}
+  select,input[type=search]{
+    font:inherit;font-size:14px;padding:8px 12px;border:1.5px solid var(--line-strong);
+    border-radius:9px;background:var(--foam);color:var(--ink);min-width:150px
+  }
+  input[type=search]{min-width:200px}
+  .count{margin-left:auto;font-family:"Space Mono",monospace;font-size:12.5px;
+    color:var(--ink-soft);letter-spacing:.04em}
+
+  /* ---------- grid ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+    gap:18px;padding:28px 0 160px}
+  .card{
+    position:relative;background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:18px 18px 16px;box-shadow:var(--shadow);
+    border-top:4px solid var(--fam);overflow:hidden;transition:.18s
+  }
+  .card:hover{transform:translateY(-2px);border-color:var(--line-strong)}
+  .card.selected{outline:2.5px solid var(--fam);outline-offset:1px}
+  .card .toprow{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .card h3{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;
+    font-size:19px;line-height:1.1;margin:0;letter-spacing:-.01em}
+  .card .lab{font-size:12.5px;color:var(--ink-soft);margin:3px 0 0}
+  .badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px;justify-content:flex-end}
+  .tag{font-family:"Space Mono",monospace;font-size:10px;letter-spacing:.08em;
+    text-transform:uppercase;padding:3px 7px;border-radius:6px;white-space:nowrap}
+  .tag.form-liquid{background:rgba(124,92,158,.14);color:#5b4178}
+  .tag.form-dry{background:rgba(110,139,61,.16);color:#4d621f}
+  .tag.fam{background:color-mix(in srgb,var(--fam) 16%,transparent);color:var(--fam)}
+  .tag.pick{background:var(--fam-conan);color:#fff}
+
+  .character{font-size:13.5px;color:var(--ink-soft);margin:13px 0 14px;min-height:38px}
+
+  .metrics{display:flex;flex-direction:column;gap:11px;margin-bottom:13px}
+  .metric .mlabel{display:flex;justify-content:space-between;align-items:baseline;
+    font-family:"Space Mono",monospace;font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-soft);margin-bottom:4px}
+  .metric .mval{color:var(--ink);font-size:11px}
+
+  /* range track (attenuation / temp) */
+  .track{position:relative;height:8px;background:var(--foam);border:1px solid var(--line);
+    border-radius:5px;overflow:hidden}
+  .track .fill{position:absolute;top:0;bottom:0;background:var(--fam);opacity:.85;border-radius:4px}
+  .track.temp .fill{background:linear-gradient(90deg,#5b86c4,#d2724b)}
+
+  /* segmented (flocculation / haze) */
+  .segs{display:flex;gap:4px}
+  .seg{flex:1;height:8px;border-radius:3px;background:var(--foam);border:1px solid var(--line)}
+  .seg.on{background:var(--fam);border-color:var(--fam)}
+  .segs.haze .seg.on{background:var(--ink-soft);border-color:var(--ink-soft)}
+
+  .note{font-size:12px;color:var(--ink-soft);background:var(--foam);
+    border-left:3px solid var(--line-strong);padding:7px 10px;border-radius:0 8px 8px 0;margin-top:4px}
+  .note b{color:var(--ink)}
+
+  .card .compare-btn{
+    width:100%;margin-top:14px;font:inherit;font-size:13px;cursor:pointer;
+    border:1.5px solid var(--line-strong);background:var(--foam);color:var(--ink);
+    padding:9px;border-radius:9px;transition:.15s;font-weight:500
+  }
+  .card .compare-btn:hover{border-color:var(--ink)}
+  .card.selected .compare-btn{background:var(--fam);color:#fff;border-color:var(--fam)}
+
+  .empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--ink-soft)}
+  .empty b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:22px;color:var(--ink);margin-bottom:8px}
+
+  /* ---------- compare tray ---------- */
+  .tray{position:fixed;left:0;right:0;bottom:0;z-index:50;
+    background:var(--ink);color:var(--foam);transform:translateY(110%);
+    transition:transform .28s cubic-bezier(.2,.8,.2,1);box-shadow:0 -10px 40px -20px #000}
+  .tray.show{transform:translateY(0)}
+  .tray .wrap{display:flex;align-items:center;gap:16px;padding:14px 24px}
+  .tray .tlabel{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:#bfae8a}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;flex:1}
+  .chip{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:5px 6px 5px 12px;font-size:13px}
+  .chip .x{cursor:pointer;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;
+    background:rgba(255,255,255,.12);font-size:12px;line-height:1}
+  .chip .x:hover{background:rgba(255,255,255,.25)}
+  .tray .btn{font:inherit;font-weight:600;font-size:14px;cursor:pointer;border:none;
+    padding:11px 20px;border-radius:10px;white-space:nowrap}
+  .tray .btn.primary{background:var(--fam-london);color:#231a12}
+  .tray .btn.ghost{background:transparent;color:#cbb78f;border:1px solid rgba(255,255,255,.2)}
+  .tray .btn:disabled{opacity:.4;cursor:not-allowed}
+
+  /* ---------- compare modal ---------- */
+  .modal{position:fixed;inset:0;z-index:60;background:rgba(35,26,18,.55);
+    display:none;padding:24px;overflow:auto}
+  .modal.show{display:block}
+  .sheet{max-width:1100px;margin:24px auto;background:var(--card);border-radius:18px;
+    box-shadow:0 30px 80px -30px #000;overflow:hidden}
+  .sheet header{display:flex;justify-content:space-between;align-items:center;
+    padding:20px 24px;border-bottom:1.5px solid var(--line);background:var(--foam)}
+  .sheet header h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:22px;margin:0}
+  .sheet .close{font:inherit;cursor:pointer;border:1.5px solid var(--line-strong);
+    background:var(--card);border-radius:9px;padding:8px 14px;font-size:14px}
+  .ctable-scroll{overflow-x:auto}
+  table.ct{border-collapse:collapse;width:100%;min-width:560px}
+  table.ct th,table.ct td{padding:13px 16px;text-align:left;vertical-align:top;
+    border-bottom:1px solid var(--line);font-size:13.5px}
+  table.ct thead th{position:sticky;top:0;background:var(--card)}
+  table.ct .rowlabel{font-family:"Space Mono",monospace;font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-soft);white-space:nowrap;width:130px}
+  table.ct .strainname{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:16px}
+  table.ct .strainlab{font-size:12px;color:var(--ink-soft);font-weight:400}
+  table.ct td.cell{border-left:3px solid var(--cellfam)}
+  . minibadge{font-family:"Space Mono",monospace;font-size:9.5px;letter-spacing:.06em;
+    text-transform:uppercase;padding:2px 6px;border-radius:5px;background:var(--foam);color:var(--ink-soft)}
+
+  footer{padding:30px 0 40px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:12.5px}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between}
+  .legend{display:flex;gap:16px;flex-wrap:wrap}
+  .legend span{display:flex;align-items:center;gap:7px;font-size:12px}
+  .legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+
+  @media (max-width:600px){
+    .wrap{padding:0 16px}
+    header.hero{padding:36px 0 22px}
+    .count{margin-left:0;width:100%}
+    .grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Yeast Bench · <b>Hoppy ale strains</b> · reference card</p>
+    <h1>Pick a yeast for<span class="sub">your next hoppy ale.</span></h1>
+    <p class="lede">A side-by-side bench for the strains worth considering across hazy NE IPAs, clean Citra pale ales (think Pseudo&nbsp;Sue), and the English ales they descend from. Filter by what you're brewing, then send a few to the compare bench.</p>
+    <div class="disclaimer">
+      <span class="dot"></span>
+      <p><b>Read the numbers as approximate.</b> Attenuation, flocculation and temperature are compiled from manufacturer listings and community reports, and real-world behavior shifts with pitch rate, mash temp, oxygen and water chemistry. Verify against current manufacturer data before locking in a recipe. Several strains are <i>reputed</i> equivalents rather than confirmed identical — noted where relevant.</p>
+    </div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="wrap">
+    <div class="ctrl-group">
+      <span class="label">Brewing for</span>
+      <div class="pills" id="usecasePills">
+        <button class="pill usecase on" data-use="all">All uses</button>
+        <button class="pill usecase" data-use="neipa">Hazy / NE IPA</button>
+        <button class="pill usecase" data-use="pale-ale">Clean pale ale</button>
+        <button class="pill usecase" data-use="west-coast">West Coast IPA</button>
+        <button class="pill usecase" data-use="english">English ale</button>
+      </div>
+    </div>
+    <div class="ctrl-group">
+      <span class="label">Family</span>
+      <select id="familySel">
+        <option value="all">All families</option>
+        <option value="London Ale III / Boddington">London Ale III / Boddington</option>
+        <option value="Conan / Vermont">Conan / Vermont</option>
+        <option value="Modern / Thiol">Modern / Thiol</option>
+        <option value="Clean American">Clean American</option>
+        <option value="Clean English">Clean English</option>
+      </select>
+    </div>
+    <div class="ctrl-group">
+      <span class="label">Form</span>
+      <select id="formSel">
+        <option value="all">Liquid + dry</option>
+        <option value="Liquid">Liquid only</option>
+        <option value="Dry">Dry only</option>
+      </select>
+    </div>
+    <div class="ctrl-group">
+      <span class="label">Sort by</span>
+      <select id="sortSel">
+        <option value="family">Family</option>
+        <option value="attenHigh">Attenuation (high→low)</option>
+        <option value="haze">Haze (high→low)</option>
+        <option value="name">Name (A→Z)</option>
+      </select>
+    </div>
+    <div class="ctrl-group">
+      <span class="label">Search</span>
+      <input type="search" id="search" placeholder="Strain, lab, code…">
+    </div>
+    <span class="count" id="count"></span>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="legend" id="legend"></div>
+    <div>Built as a brewing reference · numbers approximate · verify before brewing</div>
+  </div>
+</footer>
+
+<!-- compare tray -->
+<div class="tray" id="tray">
+  <div class="wrap">
+    <span class="tlabel">Compare bench</span>
+    <div class="chips" id="chips"></div>
+    <button class="btn ghost" id="clearBtn">Clear</button>
+    <button class="btn primary" id="compareBtn">Compare →</button>
+  </div>
+</div>
+
+<!-- compare modal -->
+<div class="modal" id="modal">
+  <div class="sheet">
+    <header>
+      <h2>Side-by-side</h2>
+      <button class="close" id="closeBtn">Close ✕</button>
+    </header>
+    <div class="ctable-scroll">
+      <table class="ct" id="ctable"></table>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- DATA ----------
+   famVal/hazeVal scales are 1–5. Numbers are approximate references. */
+const FAM = {
+  "London Ale III / Boddington": "var(--fam-london)",
+  "Conan / Vermont": "var(--fam-conan)",
+  "Modern / Thiol": "var(--fam-modern)",
+  "Clean American": "var(--fam-amer)",
+  "Clean English": "var(--fam-eng)"
+};
+
+const STRAINS = [
+  // ----- London Ale III / Boddington family -----
+  { name:"London Ale III", code:"WY1318", lab:"Wyeast", form:"Liquid",
+    family:"London Ale III / Boddington", use:["neipa","english"],
+    attenLow:71, attenHigh:75, floc:4, flocText:"High (rated)*", tempLow:64, tempHigh:74, haze:5,
+    character:"Soft, fruity and light with a slightly sweet finish. The benchmark hazy/NE IPA strain; full mouthfeel.",
+    note:"Officially rated <b>high</b> flocculation, but famous for leaving haze in NE IPAs — real-world clarity depends heavily on process.", pick:true },
+  { name:"London Fog", code:"WLP066", lab:"White Labs", form:"Liquid",
+    family:"London Ale III / Boddington", use:["neipa"],
+    attenLow:72, attenHigh:80, floc:3, flocText:"Medium", tempLow:65, tempHigh:72, haze:5,
+    character:"Soft, cloudy and fruity — White Labs' London Ale III–type. Often more attenuative than advertised.",
+    note:"Reputed Boddington's strain; brewers report ~80% attenuation when mashed low." },
+  { name:"British Ale V", code:"OYL-011", lab:"Omega", form:"Liquid",
+    family:"London Ale III / Boddington", use:["neipa","english"],
+    attenLow:70, attenHigh:75, floc:3, flocText:"Med-High", tempLow:64, tempHigh:74, haze:4,
+    character:"Hazy stability with a touch of sweetness — Omega's London Ale III–type for juicy/hazy IPAs.",
+    note:"Reputed equivalent of WY1318; brewers consider it very close." },
+  { name:"Juice (A38)", code:"A38", lab:"Imperial", form:"Liquid",
+    family:"London Ale III / Boddington", use:["neipa"],
+    attenLow:70, attenHigh:75, floc:3, flocText:"Medium", tempLow:62, tempHigh:70, haze:5,
+    character:"Juicy, fruity with a citrus punch — Imperial's self-described go-to for East Coast / hazy IPAs.",
+    note:"Listed on multiple strain charts as the same strain as WY1318." },
+  { name:"Verdant IPA", code:"LalBrew", form:"Dry",
+    family:"London Ale III / Boddington", use:["neipa","english"],
+    attenLow:75, attenHigh:82, floc:3, flocText:"Medium", tempLow:64, tempHigh:72, haze:3,
+    character:"The main dry analog to the London Ale III character — soft and fruity, English-leaning.",
+    note:"Good stand-in, but some brewers find it <b>not quite as soft/fluffy</b> as liquid 1318." },
+
+  // ----- Conan / Vermont family -----
+  { name:"Vermont IPA", code:"GY054", lab:"GigaYeast", form:"Liquid",
+    family:"Conan / Vermont", use:["neipa"],
+    attenLow:75, attenHigh:80, floc:2, flocText:"Med-Low", tempLow:65, tempHigh:72, haze:4,
+    character:"Apricot, candied mango and sweet stone fruit — one of the fruitiest hazy strains.",
+    note:"A 'Conan' (Vermont) strain; in side-by-sides it reads close to 1318 but with more stone fruit." },
+  { name:"Barbarian (A04)", code:"A04", lab:"Imperial", form:"Liquid",
+    family:"Conan / Vermont", use:["neipa","pale-ale"],
+    attenLow:73, attenHigh:74, floc:3, flocText:"Medium", tempLow:62, tempHigh:70, haze:3,
+    character:"Stone-fruit esters that pair well with citrus-forward hops; balanced IPA workhorse.",
+    note:"Imperial's Conan-type strain." },
+  { name:"Burlington Ale", code:"WLP095", lab:"White Labs", form:"Liquid",
+    family:"Conan / Vermont", use:["neipa","pale-ale"],
+    attenLow:73, attenHigh:80, floc:2, flocText:"Med-Low", tempLow:65, tempHigh:72, haze:3,
+    character:"More expressive esters than London Fog; balances malt and hop well. White Labs' Conan-type.",
+    note:"Sometimes described as Conan-adjacent rather than an exact match." },
+  { name:"Vermont Ale", code:"Escarpment", lab:"Escarpment", form:"Liquid",
+    family:"Conan / Vermont", use:["neipa","pale-ale"],
+    attenLow:76, attenHigh:80, floc:2, flocText:"Med-Low", tempLow:64, tempHigh:72, haze:4,
+    character:"Strong hop biotransformation with stone-fruit and citrus; great with Simcoe and Citra.",
+    note:"Conan/Vermont strain; benefits from a slow warm ramp to finish out." },
+
+  // ----- Modern / thiol -----
+  { name:"Cosmic Punch", code:"OYL-402", lab:"Omega", form:"Liquid",
+    family:"Modern / Thiol", use:["neipa"],
+    attenLow:75, attenHigh:80, floc:3, flocText:"Medium", tempLow:65, tempHigh:72, haze:4,
+    character:"Thiol-releasing strain engineered to boost tropical/juicy aromatics; designed for the hazy style.",
+    note:"Newer trademarked strain — behavior vs. 1318 is less documented; worth a small test batch." },
+
+  // ----- Clean American -----
+  { name:"US-05", code:"Safale", lab:"Fermentis", form:"Dry",
+    family:"Clean American", use:["pale-ale","west-coast","neipa"],
+    attenLow:78, attenHigh:82, floc:3, flocText:"Medium", tempLow:59, tempHigh:72, haze:1,
+    character:"Clean, neutral 'Chico' in dry form. Lets hops do all the talking — the classic clean APA choice.",
+    note:"Strong pick for a clean, bright Citra pale ale like <b>Pseudo Sue</b>.", pick:true },
+  { name:"California Ale", code:"WLP001", lab:"White Labs", form:"Liquid",
+    family:"Clean American", use:["pale-ale","west-coast"],
+    attenLow:73, attenHigh:80, floc:4, flocText:"Med-High", tempLow:68, tempHigh:73, haze:1,
+    character:"The clean, versatile 'Chico' standard. Crisp, accentuates hops, drops bright.",
+    note:"Liquid sibling of US-05 / WY1056; ideal for clean hop-forward beers.", pick:true },
+  { name:"American Ale", code:"WY1056", lab:"Wyeast", form:"Liquid",
+    family:"Clean American", use:["pale-ale","west-coast"],
+    attenLow:73, attenHigh:77, floc:3, flocText:"Med-Low", tempLow:60, tempHigh:72, haze:1,
+    character:"Clean with a faint citrus note. The 'Chico' liquid standard for American ales.",
+    note:"Community consensus pick for a clean Citra pale ale like <b>Pseudo Sue</b>.", pick:true },
+  { name:"American Ale II", code:"WY1272", lab:"Wyeast", form:"Liquid",
+    family:"Clean American", use:["pale-ale","neipa"],
+    attenLow:72, attenHigh:76, floc:4, flocText:"High", tempLow:60, tempHigh:72, haze:2,
+    character:"Soft and slightly nutty with a touch of tartness and gentle fruit — a characterful 'house' strain.",
+    note:"Used in some Pseudo Sue and NE IPA clones for a little more body than US-05." },
+  { name:"West Coast Ale", code:"BRY-97", lab:"LalBrew", form:"Dry",
+    family:"Clean American", use:["west-coast","pale-ale"],
+    attenLow:78, attenHigh:82, floc:4, flocText:"High", tempLow:59, tempHigh:72, haze:1,
+    character:"Clean, dry American dry yeast; settles hard after a slightly longer lag. West-Coast clarity.",
+    note:"A clean alternative to US-05 with firmer flocculation." },
+
+  // ----- Clean English -----
+  { name:"Dry English Ale", code:"WLP007", lab:"White Labs", form:"Liquid",
+    family:"Clean English", use:["english","pale-ale","west-coast"],
+    attenLow:70, attenHigh:80, floc:4, flocText:"Med-High", tempLow:65, tempHigh:70, haze:1,
+    character:"Clean, dry and highly attenuative — strips residual sweetness, reaches terminal gravity fast.",
+    note:"Used in a well-regarded Pseudo Sue clone for a crisp, dry hop-forward finish." },
+  { name:"Safale S-04", code:"S-04", lab:"Fermentis", form:"Dry",
+    family:"Clean English", use:["english","neipa","pale-ale"],
+    attenLow:73, attenHigh:78, floc:4, flocText:"High", tempLow:59, tempHigh:68, haze:2,
+    character:"Fast English dry yeast that settles well. Cheap, reliable, a touch of ester.",
+    note:"A budget NE IPA option — less full and sweet than 1318, but balanced and dependable." }
+];
+
+/* ---------- STATE ---------- */
+const state = { use:"all", family:"all", form:"all", sort:"family", q:"", selected:new Set() };
+const FAM_ORDER = Object.keys(FAM);
+
+/* ---------- HELPERS ---------- */
+const ATTEN_MIN=60, ATTEN_MAX=90, TEMP_MIN=55, TEMP_MAX=78;
+function pct(v,min,max){ return Math.max(0,Math.min(100,((v-min)/(max-min))*100)); }
+
+function segs(n,extraClass=""){
+  let s=`<div class="segs ${extraClass}">`;
+  for(let i=1;i<=5;i++) s+=`<div class="seg ${i<=n?'on':''}"></div>`;
+  return s+`</div>`;
+}
+
+function cardHTML(d){
+  const famColor = FAM[d.family];
+  const left = pct(d.attenLow,ATTEN_MIN,ATTEN_MAX);
+  const width = pct(d.attenHigh,ATTEN_MIN,ATTEN_MAX)-left;
+  const tLeft = pct(d.tempLow,TEMP_MIN,TEMP_MAX);
+  const tWidth = pct(d.tempHigh,TEMP_MIN,TEMP_MAX)-tLeft;
+  const sel = state.selected.has(d.code+d.lab) ? "selected":"";
+  return `
+  <article class="card ${sel}" style="--fam:${famColor}" data-id="${d.code+d.lab}">
+    <div class="toprow">
+      <div>
+        <h3>${d.name}</h3>
+        <p class="lab">${d.lab} · <span style="font-family:'Space Mono',monospace">${d.code}</span></p>
+      </div>
+      <div class="badges">
+        ${d.pick?`<span class="tag pick">Top pick</span>`:``}
+        <span class="tag form-${d.form.toLowerCase()}">${d.form}</span>
+        <span class="tag fam">${d.family.split(' / ')[0]}</span>
+      </div>
+    </div>
+    <p class="character">${d.character}</p>
+    <div class="metrics">
+      <div class="metric">
+        <div class="mlabel"><span>Apparent attenuation</span><span class="mval">${d.attenLow}–${d.attenHigh}%</span></div>
+        <div class="track"><div class="fill" style="left:${left}%;width:${width}%"></div></div>
+      </div>
+      <div class="metric">
+        <div class="mlabel"><span>Ferment temp</span><span class="mval">${d.tempLow}–${d.tempHigh}°F</span></div>
+        <div class="track temp"><div class="fill" style="left:${tLeft}%;width:${tWidth}%"></div></div>
+      </div>
+      <div class="metric">
+        <div class="mlabel"><span>Flocculation</span><span class="mval">${d.flocText}</span></div>
+        ${segs(d.floc)}
+      </div>
+      <div class="metric">
+        <div class="mlabel"><span>Haze tendency</span><span class="mval">${['','Very low','Low','Moderate','High','Very high'][d.haze]}</span></div>
+        ${segs(d.haze,'haze')}
+      </div>
+    </div>
+    ${d.note?`<div class="note">${d.note}</div>`:``}
+    <button class="compare-btn">${sel?'✓ On bench':'+ Add to compare'}</button>
+  </article>`;
+}
+
+function getFiltered(){
+  let list = STRAINS.filter(d=>{
+    if(state.use!=="all" && !d.use.includes(state.use)) return false;
+    if(state.family!=="all" && d.family!==state.family) return false;
+    if(state.form!=="all" && d.form!==state.form) return false;
+    if(state.q){
+      const hay=(d.name+d.code+d.lab+d.family+d.character).toLowerCase();
+      if(!hay.includes(state.q.toLowerCase())) return false;
+    }
+    return true;
+  });
+  const s=state.sort;
+  list.sort((a,b)=>{
+    if(s==="name") return a.name.localeCompare(b.name);
+    if(s==="attenHigh") return b.attenHigh-a.attenHigh;
+    if(s==="haze") return b.haze-a.haze;
+    // family
+    const fa=FAM_ORDER.indexOf(a.family), fb=FAM_ORDER.indexOf(b.family);
+    return fa-fb || a.name.localeCompare(b.name);
+  });
+  return list;
+}
+
+function render(){
+  const list=getFiltered();
+  const grid=document.getElementById('grid');
+  document.getElementById('count').textContent=`${list.length} strain${list.length!==1?'s':''} shown · ${STRAINS.length} total`;
+  if(!list.length){
+    grid.innerHTML=`<div class="empty"><b>No strains match those filters.</b>Try widening the use case or clearing search.</div>`;
+    return;
+  }
+  grid.innerHTML=list.map(cardHTML).join('');
+  grid.querySelectorAll('.card').forEach(card=>{
+    const id=card.dataset.id;
+    card.querySelector('.compare-btn').addEventListener('click',()=>toggleSelect(id));
+  });
+  renderTray();
+}
+
+function toggleSelect(id){
+  if(state.selected.has(id)) state.selected.delete(id);
+  else{
+    if(state.selected.size>=4){ flashTray(); return; }
+    state.selected.add(id);
+  }
+  render();
+}
+
+function strainById(id){ return STRAINS.find(d=>d.code+d.lab===id); }
+
+function renderTray(){
+  const tray=document.getElementById('tray');
+  const chips=document.getElementById('chips');
+  const ids=[...state.selected];
+  if(!ids.length){ tray.classList.remove('show'); return; }
+  tray.classList.add('show');
+  chips.innerHTML=ids.map(id=>{
+    const d=strainById(id);
+    return `<span class="chip" style="border-left:3px solid ${FAM[d.family]}">
+      ${d.name} <span style="opacity:.6;font-family:'Space Mono',monospace;font-size:11px">${d.code}</span>
+      <span class="x" data-rm="${id}">✕</span></span>`;
+  }).join('');
+  chips.querySelectorAll('.x').forEach(x=>x.addEventListener('click',()=>toggleSelect(x.dataset.rm)));
+  document.getElementById('compareBtn').disabled = ids.length<2;
+  document.getElementById('compareBtn').textContent = ids.length<2 ? 'Pick 2+ to compare' : `Compare ${ids.length} →`;
+}
+
+let flashTimer;
+function flashTray(){
+  const tray=document.getElementById('tray');
+  tray.style.outline='2px solid var(--warn)';
+  clearTimeout(flashTimer);
+  flashTimer=setTimeout(()=>tray.style.outline='none',500);
+}
+
+/* ---------- compare modal ---------- */
+const ROWS=[
+  {k:'badges',label:'Form / family'},
+  {k:'character',label:'Character'},
+  {k:'atten',label:'Attenuation'},
+  {k:'temp',label:'Ferment temp'},
+  {k:'floc',label:'Flocculation'},
+  {k:'haze',label:'Haze tendency'},
+  {k:'use',label:'Brews well for'},
+  {k:'note',label:'Notes'}
+];
+const USE_LABEL={neipa:'Hazy/NEIPA','pale-ale':'Pale ale','west-coast':'West Coast IPA',english:'English ale'};
+const HAZE_WORDS=['','Very low','Low','Moderate','High','Very high'];
+
+function openCompare(){
+  const ids=[...state.selected];
+  if(ids.length<2) return;
+  const ds=ids.map(strainById);
+  let html=`<thead><tr><th class="rowlabel"></th>`;
+  ds.forEach(d=>{ html+=`<th class="cell" style="--cellfam:${FAM[d.family]}">
+    <div class="strainname">${d.name}</div>
+    <div class="strainlab">${d.lab} · ${d.code}</div></th>`; });
+  html+=`</tr></thead><tbody>`;
+  ROWS.forEach(r=>{
+    html+=`<tr><td class="rowlabel">${r.label}</td>`;
+    ds.forEach(d=>{
+      let v='';
+      if(r.k==='badges') v=`<span class="minibadge">${d.form}</span> ${d.family}`;
+      else if(r.k==='character') v=d.character;
+      else if(r.k==='atten') v=`${d.attenLow}–${d.attenHigh}%`;
+      else if(r.k==='temp') v=`${d.tempLow}–${d.tempHigh}°F`;
+      else if(r.k==='floc') v=`${d.flocText} ${'●'.repeat(d.floc)}${'○'.repeat(5-d.floc)}`;
+      else if(r.k==='haze') v=`${HAZE_WORDS[d.haze]} ${'●'.repeat(d.haze)}${'○'.repeat(5-d.haze)}`;
+      else if(r.k==='use') v=d.use.map(u=>USE_LABEL[u]).join(', ');
+      else if(r.k==='note') v=d.note||'—';
+      html+=`<td class="cell" style="--cellfam:${FAM[d.family]}">${v}</td>`;
+    });
+    html+=`</tr>`;
+  });
+  html+=`</tbody>`;
+  document.getElementById('ctable').innerHTML=html;
+  document.getElementById('modal').classList.add('show');
+}
+
+/* ---------- legend ---------- */
+function buildLegend(){
+  document.getElementById('legend').innerHTML=Object.entries(FAM).map(([name,c])=>
+    `<span><i style="background:${c}"></i>${name}</span>`).join('');
+}
+
+/* ---------- wire up ---------- */
+document.getElementById('usecasePills').addEventListener('click',e=>{
+  if(!e.target.classList.contains('usecase'))return;
+  document.querySelectorAll('.pill.usecase').forEach(p=>p.classList.remove('on'));
+  e.target.classList.add('on');
+  state.use=e.target.dataset.use; render();
+});
+document.getElementById('familySel').addEventListener('change',e=>{state.family=e.target.value;render();});
+document.getElementById('formSel').addEventListener('change',e=>{state.form=e.target.value;render();});
+document.getElementById('sortSel').addEventListener('change',e=>{state.sort=e.target.value;render();});
+document.getElementById('search').addEventListener('input',e=>{state.q=e.target.value;render();});
+document.getElementById('clearBtn').addEventListener('click',()=>{state.selected.clear();render();});
+document.getElementById('compareBtn').addEventListener('click',openCompare);
+document.getElementById('closeBtn').addEventListener('click',()=>document.getElementById('modal').classList.remove('show'));
+document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')e.target.classList.remove('show');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('modal').classList.remove('show');});
+
+buildLegend();
+render();
+</script>
+</body>
+</html>
