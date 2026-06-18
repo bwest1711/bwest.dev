@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yeast Bench — Hoppy Ale Strain Comparison</title>
+<title>Yeast Bench — Hoppy Ale Strains at Beer &amp; Wine Hobby</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -17,12 +17,11 @@
     --line:#E0D6C2;
     --line-strong:#C9BCA0;
 
-    /* family accents */
-    --fam-london:#D69A2E;   /* Boddington / London Ale III */
-    --fam-conan:#D26B45;    /* Conan / Vermont */
-    --fam-modern:#7C5C9E;   /* Modern / thiol */
-    --fam-amer:#6E8B3D;     /* Clean American */
-    --fam-eng:#A45F2C;      /* Clean English */
+    --fam-london:#D69A2E;
+    --fam-conan:#D26B45;
+    --fam-modern:#7C5C9E;
+    --fam-amer:#6E8B3D;
+    --fam-eng:#A45F2C;
 
     --good:#6E8B3D;
     --warn:#C57A1E;
@@ -44,7 +43,6 @@
   }
   .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
 
-  /* ---------- header ---------- */
   header.hero{padding:54px 0 26px;border-bottom:1.5px solid var(--line-strong)}
   .eyebrow{
     font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.22em;
@@ -54,7 +52,7 @@
   h1{
     font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
     font-size:clamp(34px,6vw,62px);line-height:.98;letter-spacing:-.02em;
-    margin:0 0 16px;max-width:14ch
+    margin:0 0 16px;max-width:15ch
   }
   h1 .sub{display:block;color:var(--fam-conan)}
   .lede{font-size:17px;max-width:64ch;color:var(--ink-soft);margin:0}
@@ -62,7 +60,7 @@
   .disclaimer{
     margin-top:22px;display:flex;gap:12px;align-items:flex-start;
     background:rgba(197,122,30,.09);border:1px solid rgba(197,122,30,.3);
-    border-radius:12px;padding:13px 16px;max-width:74ch
+    border-radius:12px;padding:13px 16px;max-width:78ch
   }
   .disclaimer .dot{
     flex:none;margin-top:3px;width:9px;height:9px;border-radius:50%;
@@ -71,7 +69,6 @@
   .disclaimer p{margin:0;font-size:13.5px;color:var(--ink-soft)}
   .disclaimer b{color:var(--ink)}
 
-  /* ---------- controls ---------- */
   .controls{position:sticky;top:0;z-index:40;background:rgba(244,238,224,.92);
     backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:16px 0}
   .controls .wrap{display:flex;flex-wrap:wrap;gap:14px 20px;align-items:center}
@@ -95,13 +92,13 @@
   .count{margin-left:auto;font-family:"Space Mono",monospace;font-size:12.5px;
     color:var(--ink-soft);letter-spacing:.04em}
 
-  /* ---------- grid ---------- */
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
     gap:18px;padding:28px 0 160px}
   .card{
     position:relative;background:var(--card);border:1px solid var(--line);
     border-radius:16px;padding:18px 18px 16px;box-shadow:var(--shadow);
-    border-top:4px solid var(--fam);overflow:hidden;transition:.18s
+    border-top:4px solid var(--fam);overflow:hidden;transition:.18s;
+    display:flex;flex-direction:column
   }
   .card:hover{transform:translateY(-2px);border-color:var(--line-strong)}
   .card.selected{outline:2.5px solid var(--fam);outline-offset:1px}
@@ -116,8 +113,9 @@
   .tag.form-dry{background:rgba(110,139,61,.16);color:#4d621f}
   .tag.fam{background:color-mix(in srgb,var(--fam) 16%,transparent);color:var(--fam)}
   .tag.pick{background:var(--fam-conan);color:#fff}
+  .tag.new{background:var(--ink);color:var(--foam)}
 
-  .character{font-size:13.5px;color:var(--ink-soft);margin:13px 0 14px;min-height:38px}
+  .character{font-size:13.5px;color:var(--ink-soft);margin:13px 0 14px}
 
   .metrics{display:flex;flex-direction:column;gap:11px;margin-bottom:13px}
   .metric .mlabel{display:flex;justify-content:space-between;align-items:baseline;
@@ -125,13 +123,11 @@
     text-transform:uppercase;color:var(--ink-soft);margin-bottom:4px}
   .metric .mval{color:var(--ink);font-size:11px}
 
-  /* range track (attenuation / temp) */
   .track{position:relative;height:8px;background:var(--foam);border:1px solid var(--line);
     border-radius:5px;overflow:hidden}
   .track .fill{position:absolute;top:0;bottom:0;background:var(--fam);opacity:.85;border-radius:4px}
   .track.temp .fill{background:linear-gradient(90deg,#5b86c4,#d2724b)}
 
-  /* segmented (flocculation / haze) */
   .segs{display:flex;gap:4px}
   .seg{flex:1;height:8px;border-radius:3px;background:var(--foam);border:1px solid var(--line)}
   .seg.on{background:var(--fam);border-color:var(--fam)}
@@ -141,18 +137,28 @@
     border-left:3px solid var(--line-strong);padding:7px 10px;border-radius:0 8px 8px 0;margin-top:4px}
   .note b{color:var(--ink)}
 
+  .shoprow{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    margin-top:14px;padding-top:12px;border-top:1px dashed var(--line-strong)}
+  .price{font-family:"Space Mono",monospace;font-weight:700;font-size:15px;color:var(--ink)}
+  .price .approx{font-weight:400;font-size:10px;color:var(--ink-soft);letter-spacing:.06em}
+  .shop{font-size:12.5px;font-weight:600;color:var(--fam);text-decoration:none;
+    border:1.5px solid color-mix(in srgb,var(--fam) 45%,transparent);
+    padding:6px 11px;border-radius:8px;transition:.15s;white-space:nowrap}
+  .shop:hover{background:color-mix(in srgb,var(--fam) 12%,transparent)}
+
   .card .compare-btn{
-    width:100%;margin-top:14px;font:inherit;font-size:13px;cursor:pointer;
+    width:100%;margin-top:11px;font:inherit;font-size:13px;cursor:pointer;
     border:1.5px solid var(--line-strong);background:var(--foam);color:var(--ink);
     padding:9px;border-radius:9px;transition:.15s;font-weight:500
   }
   .card .compare-btn:hover{border-color:var(--ink)}
   .card.selected .compare-btn{background:var(--fam);color:#fff;border-color:var(--fam)}
 
+  .grow{flex:1}
+
   .empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--ink-soft)}
   .empty b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:22px;color:var(--ink);margin-bottom:8px}
 
-  /* ---------- compare tray ---------- */
   .tray{position:fixed;left:0;right:0;bottom:0;z-index:50;
     background:var(--ink);color:var(--foam);transform:translateY(110%);
     transition:transform .28s cubic-bezier(.2,.8,.2,1);box-shadow:0 -10px 40px -20px #000}
@@ -172,7 +178,6 @@
   .tray .btn.ghost{background:transparent;color:#cbb78f;border:1px solid rgba(255,255,255,.2)}
   .tray .btn:disabled{opacity:.4;cursor:not-allowed}
 
-  /* ---------- compare modal ---------- */
   .modal{position:fixed;inset:0;z-index:60;background:rgba(35,26,18,.55);
     display:none;padding:24px;overflow:auto}
   .modal.show{display:block}
@@ -193,7 +198,9 @@
   table.ct .strainname{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:16px}
   table.ct .strainlab{font-size:12px;color:var(--ink-soft);font-weight:400}
   table.ct td.cell{border-left:3px solid var(--cellfam)}
-  . minibadge{font-family:"Space Mono",monospace;font-size:9.5px;letter-spacing:.06em;
+  table.ct a.shoplink{color:var(--cellfam);font-weight:600;text-decoration:none}
+  table.ct a.shoplink:hover{text-decoration:underline}
+  .minibadge{font-family:"Space Mono",monospace;font-size:9.5px;letter-spacing:.06em;
     text-transform:uppercase;padding:2px 6px;border-radius:5px;background:var(--foam);color:var(--ink-soft)}
 
   footer{padding:30px 0 40px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:12.5px}
@@ -214,12 +221,12 @@
 
 <header class="hero">
   <div class="wrap">
-    <p class="eyebrow">Yeast Bench · <b>Hoppy ale strains</b> · reference card</p>
-    <h1>Pick a yeast for<span class="sub">your next hoppy ale.</span></h1>
-    <p class="lede">A side-by-side bench for the strains worth considering across hazy NE IPAs, clean Citra pale ales (think Pseudo&nbsp;Sue), and the English ales they descend from. Filter by what you're brewing, then send a few to the compare bench.</p>
+    <p class="eyebrow">Yeast Bench · <b>Hoppy ale strains</b> · stocked at Beer &amp; Wine Hobby</p>
+    <h1>Pick a yeast<span class="sub">they actually carry.</span></h1>
+    <p class="lede">Every strain here is one Beer &amp; Wine Hobby (Danvers, MA) stocks, curated for hazy NE IPAs, clean Citra pale ales like Pseudo&nbsp;Sue, and the English ales they descend from. Filter by what you're brewing, send a few to the compare bench, and tap through to the product page.</p>
     <div class="disclaimer">
       <span class="dot"></span>
-      <p><b>Read the numbers as approximate.</b> Attenuation, flocculation and temperature are compiled from manufacturer listings and community reports, and real-world behavior shifts with pitch rate, mash temp, oxygen and water chemistry. Verify against current manufacturer data before locking in a recipe. Several strains are <i>reputed</i> equivalents rather than confirmed identical — noted where relevant.</p>
+      <p><b>Numbers and prices are approximate.</b> Attenuation, flocculation and temperature come from manufacturer and community sources and shift with your process. Prices are pulled from product listings and can change; a few liquid strains are "special order," so listed isn't always in-stock that day — worth a call before brew day. Some strains are <i>reputed</i> equivalents, not lab-confirmed identical — noted where relevant.</p>
     </div>
   </div>
 </header>
@@ -259,14 +266,14 @@
       <span class="label">Sort by</span>
       <select id="sortSel">
         <option value="family">Family</option>
-        <option value="attenHigh">Attenuation (high→low)</option>
-        <option value="haze">Haze (high→low)</option>
-        <option value="name">Name (A→Z)</option>
+        <option value="attenHigh">Attenuation (high&rarr;low)</option>
+        <option value="haze">Haze (high&rarr;low)</option>
+        <option value="name">Name (A&rarr;Z)</option>
       </select>
     </div>
     <div class="ctrl-group">
       <span class="label">Search</span>
-      <input type="search" id="search" placeholder="Strain, lab, code…">
+      <input type="search" id="search" placeholder="Strain, lab, code&hellip;">
     </div>
     <span class="count" id="count"></span>
   </div>
@@ -279,26 +286,24 @@
 <footer>
   <div class="wrap">
     <div class="legend" id="legend"></div>
-    <div>Built as a brewing reference · numbers approximate · verify before brewing</div>
+    <div>Stocked at Beer &amp; Wine Hobby, Danvers MA &middot; specs &amp; prices approximate &middot; verify before brewing</div>
   </div>
 </footer>
 
-<!-- compare tray -->
 <div class="tray" id="tray">
   <div class="wrap">
     <span class="tlabel">Compare bench</span>
     <div class="chips" id="chips"></div>
     <button class="btn ghost" id="clearBtn">Clear</button>
-    <button class="btn primary" id="compareBtn">Compare →</button>
+    <button class="btn primary" id="compareBtn">Compare &rarr;</button>
   </div>
 </div>
 
-<!-- compare modal -->
 <div class="modal" id="modal">
   <div class="sheet">
     <header>
       <h2>Side-by-side</h2>
-      <button class="close" id="closeBtn">Close ✕</button>
+      <button class="close" id="closeBtn">Close &#10005;</button>
     </header>
     <div class="ctable-scroll">
       <table class="ct" id="ctable"></table>
@@ -307,8 +312,6 @@
 </div>
 
 <script>
-/* ---------- DATA ----------
-   famVal/hazeVal scales are 1–5. Numbers are approximate references. */
 const FAM = {
   "London Ale III / Boddington": "var(--fam-london)",
   "Conan / Vermont": "var(--fam-conan)",
@@ -318,114 +321,152 @@ const FAM = {
 };
 
 const STRAINS = [
-  // ----- London Ale III / Boddington family -----
+  // ----- London Ale III / Boddington -----
   { name:"London Ale III", code:"WY1318", lab:"Wyeast", form:"Liquid",
     family:"London Ale III / Boddington", use:["neipa","english"],
     attenLow:71, attenHigh:75, floc:4, flocText:"High (rated)*", tempLow:64, tempHigh:74, haze:5,
+    price:"~$12.99", approx:true, url:"https://www.beer-wine.com/wyeast-1318-london-ale-yeast-iii-15711",
     character:"Soft, fruity and light with a slightly sweet finish. The benchmark hazy/NE IPA strain; full mouthfeel.",
-    note:"Officially rated <b>high</b> flocculation, but famous for leaving haze in NE IPAs — real-world clarity depends heavily on process.", pick:true },
+    note:"Officially rated <b>high</b> flocculation, but famous for leaving haze in NE IPAs \u2014 real-world clarity depends heavily on process.", pick:true },
   { name:"London Fog", code:"WLP066", lab:"White Labs", form:"Liquid",
     family:"London Ale III / Boddington", use:["neipa"],
-    attenLow:72, attenHigh:80, floc:3, flocText:"Medium", tempLow:65, tempHigh:72, haze:5,
-    character:"Soft, cloudy and fruity — White Labs' London Ale III–type. Often more attenuative than advertised.",
-    note:"Reputed Boddington's strain; brewers report ~80% attenuation when mashed low." },
+    attenLow:72, attenHigh:80, floc:3, flocText:"Medium", tempLow:64, tempHigh:72, haze:5,
+    price:"$15.99", url:"https://www.beer-wine.com/wlp066-london-fog-ale-yeast",
+    character:"Soft, cloudy and fruity \u2014 White Labs' London Ale III\u2013type. Often more attenuative than advertised.",
+    note:"Reputed Boddington's strain; a dry 11g version is also stocked (~$11.99)." },
   { name:"British Ale V", code:"OYL-011", lab:"Omega", form:"Liquid",
     family:"London Ale III / Boddington", use:["neipa","english"],
     attenLow:70, attenHigh:75, floc:3, flocText:"Med-High", tempLow:64, tempHigh:74, haze:4,
-    character:"Hazy stability with a touch of sweetness — Omega's London Ale III–type for juicy/hazy IPAs.",
+    price:"$13.99", url:"https://www.beer-wine.com/catalog/product/view/id/14632/s/omega-yeast-011-british-ale-5-liquid-yeast/category/62/",
+    character:"Hazy stability with a touch of sweetness \u2014 Omega's London Ale III\u2013type for juicy/hazy IPAs.",
     note:"Reputed equivalent of WY1318; brewers consider it very close." },
   { name:"Juice (A38)", code:"A38", lab:"Imperial", form:"Liquid",
     family:"London Ale III / Boddington", use:["neipa"],
     attenLow:70, attenHigh:75, floc:3, flocText:"Medium", tempLow:62, tempHigh:70, haze:5,
-    character:"Juicy, fruity with a citrus punch — Imperial's self-described go-to for East Coast / hazy IPAs.",
+    price:"$14.99", url:"https://www.beer-wine.com/imperial-yeast-a38-juice",
+    character:"Juicy, fruity with a citrus punch \u2014 Imperial's self-described go-to for East Coast / hazy IPAs.",
     note:"Listed on multiple strain charts as the same strain as WY1318." },
   { name:"Verdant IPA", code:"LalBrew", form:"Dry",
     family:"London Ale III / Boddington", use:["neipa","english"],
     attenLow:75, attenHigh:82, floc:3, flocText:"Medium", tempLow:64, tempHigh:72, haze:3,
-    character:"The main dry analog to the London Ale III character — soft and fruity, English-leaning.",
+    price:"$8.99", url:"https://www.beer-wine.com/lallemand-verdant-ipa-yeast",
+    character:"The main dry analog to the London Ale III character \u2014 soft and fruity, English-leaning.",
     note:"Good stand-in, but some brewers find it <b>not quite as soft/fluffy</b> as liquid 1318." },
 
-  // ----- Conan / Vermont family -----
-  { name:"Vermont IPA", code:"GY054", lab:"GigaYeast", form:"Liquid",
-    family:"Conan / Vermont", use:["neipa"],
-    attenLow:75, attenHigh:80, floc:2, flocText:"Med-Low", tempLow:65, tempHigh:72, haze:4,
-    character:"Apricot, candied mango and sweet stone fruit — one of the fruitiest hazy strains.",
-    note:"A 'Conan' (Vermont) strain; in side-by-sides it reads close to 1318 but with more stone fruit." },
-  { name:"Barbarian (A04)", code:"A04", lab:"Imperial", form:"Liquid",
-    family:"Conan / Vermont", use:["neipa","pale-ale"],
-    attenLow:73, attenHigh:74, floc:3, flocText:"Medium", tempLow:62, tempHigh:70, haze:3,
-    character:"Stone-fruit esters that pair well with citrus-forward hops; balanced IPA workhorse.",
-    note:"Imperial's Conan-type strain." },
+  // ----- Conan / Vermont -----
   { name:"Burlington Ale", code:"WLP095", lab:"White Labs", form:"Liquid",
     family:"Conan / Vermont", use:["neipa","pale-ale"],
     attenLow:73, attenHigh:80, floc:2, flocText:"Med-Low", tempLow:65, tempHigh:72, haze:3,
+    price:"$15.99", url:"https://www.beer-wine.com/white-labs-burlington-ale-yeast",
     character:"More expressive esters than London Fog; balances malt and hop well. White Labs' Conan-type.",
-    note:"Sometimes described as Conan-adjacent rather than an exact match." },
-  { name:"Vermont Ale", code:"Escarpment", lab:"Escarpment", form:"Liquid",
+    note:"Widely considered the Alchemist / GY054 Vermont strain \u2014 your in-stock route to the Conan family.", pick:true },
+  { name:"Dry Hop (A24)", code:"A24", lab:"Imperial", form:"Liquid",
     family:"Conan / Vermont", use:["neipa","pale-ale"],
-    attenLow:76, attenHigh:80, floc:2, flocText:"Med-Low", tempLow:64, tempHigh:72, haze:4,
-    character:"Strong hop biotransformation with stone-fruit and citrus; great with Simcoe and Citra.",
-    note:"Conan/Vermont strain; benefits from a slow warm ramp to finish out." },
+    attenLow:74, attenHigh:78, floc:3, flocText:"Medium", tempLow:64, tempHigh:74, haze:3,
+    price:"$14.99", url:"https://www.beer-wine.com/imperial-yeast-a24-dry-hop",
+    character:"A blend of A20 Citrus + A04 Barbarian (Conan). Explosive citrus, peach and apricot for hop-forward beers.",
+    note:"Contains a <b>STA1+ (diastaticus)</b> strain \u2014 attenuates very far; clean equipment thoroughly. The in-stock way to get Barbarian/Conan." },
+  { name:"American East Coast Ale", code:"LalBrew", lab:"Lallemand", form:"Dry",
+    family:"Conan / Vermont", use:["neipa"],
+    attenLow:74, attenHigh:80, floc:2, flocText:"Med-Low", tempLow:64, tempHigh:72, haze:3,
+    price:"$7.99", approx:true, url:"https://www.beer-wine.com/lallemand-american-east-coast-ale-yeast-10402",
+    character:"Fruit-forward dry yeast with tropical and stone-fruit (peach) esters; built for East Coast styles.",
+    note:"A dry option for the Conan/Vermont character; ~36hr lag, finishes in about 7 days." },
 
-  // ----- Modern / thiol -----
+  // ----- Modern / Thiol -----
   { name:"Cosmic Punch", code:"OYL-402", lab:"Omega", form:"Liquid",
     family:"Modern / Thiol", use:["neipa"],
-    attenLow:75, attenHigh:80, floc:3, flocText:"Medium", tempLow:65, tempHigh:72, haze:4,
+    attenLow:71, attenHigh:75, floc:4, flocText:"High", tempLow:64, tempHigh:75, haze:4,
+    price:"~$15.99", approx:true, url:"https://www.beer-wine.com/omega-yeast-402-cosmic-punch-liquid-yeast",
     character:"Thiol-releasing strain engineered to boost tropical/juicy aromatics; designed for the hazy style.",
-    note:"Newer trademarked strain — behavior vs. 1318 is less documented; worth a small test batch." },
+    note:"Built on British Ale V; pairs well with mash-hopping and grape products to push thiols." },
+  { name:"Helio Gazer", code:"OYL-405", lab:"Omega", form:"Liquid",
+    family:"Modern / Thiol", use:["neipa"],
+    attenLow:71, attenHigh:75, floc:4, flocText:"High", tempLow:64, tempHigh:75, haze:4,
+    price:"~$15.99", approx:true, url:"https://www.beer-wine.com/omega-yeast-405-helio-gazer-liquid-yeast",
+    character:"An amped-up Cosmic Punch \u2014 enhanced thiol biotransformation for guava and NZ-sauvignon-blanc aromas.",
+    note:"Built on British Ale V with sturdy haze; the most aromatic thiolized option they carry." },
 
   // ----- Clean American -----
+  { name:"Flagship (A07)", code:"A07", lab:"Imperial", form:"Liquid",
+    family:"Clean American", use:["pale-ale","west-coast"],
+    attenLow:73, attenHigh:77, floc:2, flocText:"Med-Low", tempLow:60, tempHigh:72, haze:1,
+    price:"$14.99", url:"https://www.beer-wine.com/imperial-yeast-a07-flagship",
+    character:"Imperial's clean 'Chico'. Extremely neutral; run it in the low 60s for an exceptionally crisp ale.",
+    note:"The WLP001 / WY1056 equivalent in Imperial's lineup \u2014 a clean pick for a Pseudo Sue\u2013style pale ale.", pick:true },
   { name:"US-05", code:"Safale", lab:"Fermentis", form:"Dry",
     family:"Clean American", use:["pale-ale","west-coast","neipa"],
     attenLow:78, attenHigh:82, floc:3, flocText:"Medium", tempLow:59, tempHigh:72, haze:1,
-    character:"Clean, neutral 'Chico' in dry form. Lets hops do all the talking — the classic clean APA choice.",
+    price:"from $4.39", url:"https://www.beer-wine.com/safale-us-05-american-ale-yeast-10556",
+    character:"Clean, neutral 'Chico' in dry form. Lets hops do all the talking \u2014 the classic clean APA choice.",
     note:"Strong pick for a clean, bright Citra pale ale like <b>Pseudo Sue</b>.", pick:true },
   { name:"California Ale", code:"WLP001", lab:"White Labs", form:"Liquid",
     family:"Clean American", use:["pale-ale","west-coast"],
     attenLow:73, attenHigh:80, floc:4, flocText:"Med-High", tempLow:68, tempHigh:73, haze:1,
+    price:"$15.99 / $11.99 dry", url:"https://www.beer-wine.com/white-labs-wlp001-california-ale-yeast",
     character:"The clean, versatile 'Chico' standard. Crisp, accentuates hops, drops bright.",
-    note:"Liquid sibling of US-05 / WY1056; ideal for clean hop-forward beers.", pick:true },
+    note:"Stocked as both liquid and a Lallemand-made dry version; ideal for clean hop-forward beers.", pick:true },
   { name:"American Ale", code:"WY1056", lab:"Wyeast", form:"Liquid",
     family:"Clean American", use:["pale-ale","west-coast"],
     attenLow:73, attenHigh:77, floc:3, flocText:"Med-Low", tempLow:60, tempHigh:72, haze:1,
+    price:"$12.99", url:"https://www.beer-wine.com/catalogsearch/result/?q=wyeast+1056",
     character:"Clean with a faint citrus note. The 'Chico' liquid standard for American ales.",
     note:"Community consensus pick for a clean Citra pale ale like <b>Pseudo Sue</b>.", pick:true },
   { name:"American Ale II", code:"WY1272", lab:"Wyeast", form:"Liquid",
     family:"Clean American", use:["pale-ale","neipa"],
     attenLow:72, attenHigh:76, floc:4, flocText:"High", tempLow:60, tempHigh:72, haze:2,
-    character:"Soft and slightly nutty with a touch of tartness and gentle fruit — a characterful 'house' strain.",
+    price:"$12.99", url:"https://www.beer-wine.com/wyeast-1272-american-ale-yeast-ii",
+    character:"Soft and slightly nutty with a touch of tartness and gentle fruit \u2014 a characterful 'house' strain.",
     note:"Used in some Pseudo Sue and NE IPA clones for a little more body than US-05." },
+  { name:"East Coast Ale", code:"WLP008", lab:"White Labs", form:"Liquid",
+    family:"Clean American", use:["neipa","pale-ale"],
+    attenLow:70, attenHigh:80, floc:3, flocText:"Medium", tempLow:65, tempHigh:70, haze:2,
+    price:"$15.99", url:"https://www.beer-wine.com/white-labs-wlp008-east-coast-ale-yeast",
+    character:"WLP001-like but with more esters and a little residual sweetness; a cleaner, crisper take on a hazy strain.",
+    note:"A bridge between clean and hazy \u2014 good for balanced East Coast IPAs and pale ales." },
   { name:"West Coast Ale", code:"BRY-97", lab:"LalBrew", form:"Dry",
     family:"Clean American", use:["west-coast","pale-ale"],
     attenLow:78, attenHigh:82, floc:4, flocText:"High", tempLow:59, tempHigh:72, haze:1,
-    character:"Clean, dry American dry yeast; settles hard after a slightly longer lag. West-Coast clarity.",
+    price:"$4.99", url:"https://www.beer-wine.com/lallemand-bry97-west-coast-ale",
+    character:"Clean, dry American dry yeast with a slightly estery, near-neutral aroma; settles hard after a longer lag.",
     note:"A clean alternative to US-05 with firmer flocculation." },
 
   // ----- Clean English -----
   { name:"Dry English Ale", code:"WLP007", lab:"White Labs", form:"Liquid",
     family:"Clean English", use:["english","pale-ale","west-coast"],
     attenLow:70, attenHigh:80, floc:4, flocText:"Med-High", tempLow:65, tempHigh:70, haze:1,
-    character:"Clean, dry and highly attenuative — strips residual sweetness, reaches terminal gravity fast.",
+    price:"$15.99", url:"https://www.beer-wine.com/white-labs-wlp007-dry-english-ale-yeast",
+    character:"Clean, dry and highly attenuative \u2014 strips residual sweetness, reaches terminal gravity fast.",
     note:"Used in a well-regarded Pseudo Sue clone for a crisp, dry hop-forward finish." },
+  { name:"English Ale", code:"WLP002", lab:"White Labs", form:"Liquid",
+    family:"Clean English", use:["english","pale-ale"],
+    attenLow:63, attenHigh:70, floc:5, flocText:"Very High", tempLow:65, tempHigh:68, haze:1,
+    price:"$15.99", url:"https://www.beer-wine.com/white-labs-wlp002-english-ale-yeast",
+    character:"Classic English ESB strain (Fuller's-type). Residual sweetness, mild fruity esters, drops crystal clear.",
+    note:"Maltier, fuller sibling of WLP007; also works for American pales/IPAs. Slight diacetyl is common \u2014 give it a rest." },
   { name:"Safale S-04", code:"S-04", lab:"Fermentis", form:"Dry",
     family:"Clean English", use:["english","neipa","pale-ale"],
     attenLow:73, attenHigh:78, floc:4, flocText:"High", tempLow:59, tempHigh:68, haze:2,
+    price:"from $4.69", url:"https://www.beer-wine.com/safale-s-04-ale-yeast-10557",
     character:"Fast English dry yeast that settles well. Cheap, reliable, a touch of ester.",
-    note:"A budget NE IPA option — less full and sweet than 1318, but balanced and dependable." }
+    note:"A budget NE IPA option \u2014 less full and sweet than 1318, but balanced and dependable." }
 ];
 
-/* ---------- STATE ---------- */
+const NEW_CODES = new Set(["A24","A07","WLP008","WLP002","OYL-405"]);
+NEW_CODES.add("LalBrew-American East Coast Ale");
+
 const state = { use:"all", family:"all", form:"all", sort:"family", q:"", selected:new Set() };
 const FAM_ORDER = Object.keys(FAM);
 
-/* ---------- HELPERS ---------- */
 const ATTEN_MIN=60, ATTEN_MAX=90, TEMP_MIN=55, TEMP_MAX=78;
 function pct(v,min,max){ return Math.max(0,Math.min(100,((v-min)/(max-min))*100)); }
+function uid(d){ return d.code+d.lab+d.name; }
+function isNew(d){ return NEW_CODES.has(d.code) || NEW_CODES.has(d.code+"-"+d.name); }
 
-function segs(n,extraClass=""){
-  let s=`<div class="segs ${extraClass}">`;
-  for(let i=1;i<=5;i++) s+=`<div class="seg ${i<=n?'on':''}"></div>`;
-  return s+`</div>`;
+function segs(n,extraClass){
+  let s='<div class="segs '+(extraClass||'')+'">';
+  for(let i=1;i<=5;i++) s+='<div class="seg '+(i<=n?'on':'')+'"></div>';
+  return s+'</div>';
 }
 
 function cardHTML(d){
@@ -434,15 +475,17 @@ function cardHTML(d){
   const width = pct(d.attenHigh,ATTEN_MIN,ATTEN_MAX)-left;
   const tLeft = pct(d.tempLow,TEMP_MIN,TEMP_MAX);
   const tWidth = pct(d.tempHigh,TEMP_MIN,TEMP_MAX)-tLeft;
-  const sel = state.selected.has(d.code+d.lab) ? "selected":"";
+  const sel = state.selected.has(uid(d)) ? "selected":"";
+  const hazeWords=['','Very low','Low','Moderate','High','Very high'];
   return `
-  <article class="card ${sel}" style="--fam:${famColor}" data-id="${d.code+d.lab}">
+  <article class="card ${sel}" style="--fam:${famColor}" data-id="${uid(d)}">
     <div class="toprow">
       <div>
         <h3>${d.name}</h3>
-        <p class="lab">${d.lab} · <span style="font-family:'Space Mono',monospace">${d.code}</span></p>
+        <p class="lab">${d.lab} &middot; <span style="font-family:'Space Mono',monospace">${d.code}</span></p>
       </div>
       <div class="badges">
+        ${isNew(d)?`<span class="tag new">New</span>`:``}
         ${d.pick?`<span class="tag pick">Top pick</span>`:``}
         <span class="tag form-${d.form.toLowerCase()}">${d.form}</span>
         <span class="tag fam">${d.family.split(' / ')[0]}</span>
@@ -451,11 +494,11 @@ function cardHTML(d){
     <p class="character">${d.character}</p>
     <div class="metrics">
       <div class="metric">
-        <div class="mlabel"><span>Apparent attenuation</span><span class="mval">${d.attenLow}–${d.attenHigh}%</span></div>
+        <div class="mlabel"><span>Apparent attenuation</span><span class="mval">${d.attenLow}&ndash;${d.attenHigh}%</span></div>
         <div class="track"><div class="fill" style="left:${left}%;width:${width}%"></div></div>
       </div>
       <div class="metric">
-        <div class="mlabel"><span>Ferment temp</span><span class="mval">${d.tempLow}–${d.tempHigh}°F</span></div>
+        <div class="mlabel"><span>Ferment temp</span><span class="mval">${d.tempLow}&ndash;${d.tempHigh}&deg;F</span></div>
         <div class="track temp"><div class="fill" style="left:${tLeft}%;width:${tWidth}%"></div></div>
       </div>
       <div class="metric">
@@ -463,12 +506,17 @@ function cardHTML(d){
         ${segs(d.floc)}
       </div>
       <div class="metric">
-        <div class="mlabel"><span>Haze tendency</span><span class="mval">${['','Very low','Low','Moderate','High','Very high'][d.haze]}</span></div>
+        <div class="mlabel"><span>Haze tendency</span><span class="mval">${hazeWords[d.haze]}</span></div>
         ${segs(d.haze,'haze')}
       </div>
     </div>
     ${d.note?`<div class="note">${d.note}</div>`:``}
-    <button class="compare-btn">${sel?'✓ On bench':'+ Add to compare'}</button>
+    <div class="grow"></div>
+    <div class="shoprow">
+      <span class="price">${d.price}${d.approx?` <span class="approx">approx</span>`:``}</span>
+      <a class="shop" href="${d.url}" target="_blank" rel="noopener">View at shop &nearr;</a>
+    </div>
+    <button class="compare-btn">${sel?'\u2713 On bench':'+ Add to compare'}</button>
   </article>`;
 }
 
@@ -488,7 +536,6 @@ function getFiltered(){
     if(s==="name") return a.name.localeCompare(b.name);
     if(s==="attenHigh") return b.attenHigh-a.attenHigh;
     if(s==="haze") return b.haze-a.haze;
-    // family
     const fa=FAM_ORDER.indexOf(a.family), fb=FAM_ORDER.indexOf(b.family);
     return fa-fb || a.name.localeCompare(b.name);
   });
@@ -498,7 +545,7 @@ function getFiltered(){
 function render(){
   const list=getFiltered();
   const grid=document.getElementById('grid');
-  document.getElementById('count').textContent=`${list.length} strain${list.length!==1?'s':''} shown · ${STRAINS.length} total`;
+  document.getElementById('count').textContent=`${list.length} strain${list.length!==1?'s':''} shown \u00b7 ${STRAINS.length} total`;
   if(!list.length){
     grid.innerHTML=`<div class="empty"><b>No strains match those filters.</b>Try widening the use case or clearing search.</div>`;
     return;
@@ -520,7 +567,7 @@ function toggleSelect(id){
   render();
 }
 
-function strainById(id){ return STRAINS.find(d=>d.code+d.lab===id); }
+function strainById(id){ return STRAINS.find(d=>uid(d)===id); }
 
 function renderTray(){
   const tray=document.getElementById('tray');
@@ -532,11 +579,11 @@ function renderTray(){
     const d=strainById(id);
     return `<span class="chip" style="border-left:3px solid ${FAM[d.family]}">
       ${d.name} <span style="opacity:.6;font-family:'Space Mono',monospace;font-size:11px">${d.code}</span>
-      <span class="x" data-rm="${id}">✕</span></span>`;
+      <span class="x" data-rm="${id}">\u2715</span></span>`;
   }).join('');
   chips.querySelectorAll('.x').forEach(x=>x.addEventListener('click',()=>toggleSelect(x.dataset.rm)));
   document.getElementById('compareBtn').disabled = ids.length<2;
-  document.getElementById('compareBtn').textContent = ids.length<2 ? 'Pick 2+ to compare' : `Compare ${ids.length} →`;
+  document.getElementById('compareBtn').textContent = ids.length<2 ? 'Pick 2+ to compare' : `Compare ${ids.length} \u2192`;
 }
 
 let flashTimer;
@@ -547,7 +594,6 @@ function flashTray(){
   flashTimer=setTimeout(()=>tray.style.outline='none',500);
 }
 
-/* ---------- compare modal ---------- */
 const ROWS=[
   {k:'badges',label:'Form / family'},
   {k:'character',label:'Character'},
@@ -556,7 +602,9 @@ const ROWS=[
   {k:'floc',label:'Flocculation'},
   {k:'haze',label:'Haze tendency'},
   {k:'use',label:'Brews well for'},
-  {k:'note',label:'Notes'}
+  {k:'price',label:'Price (approx)'},
+  {k:'note',label:'Notes'},
+  {k:'shop',label:'Buy'}
 ];
 const USE_LABEL={neipa:'Hazy/NEIPA','pale-ale':'Pale ale','west-coast':'West Coast IPA',english:'English ale'};
 const HAZE_WORDS=['','Very low','Low','Moderate','High','Very high'];
@@ -568,7 +616,7 @@ function openCompare(){
   let html=`<thead><tr><th class="rowlabel"></th>`;
   ds.forEach(d=>{ html+=`<th class="cell" style="--cellfam:${FAM[d.family]}">
     <div class="strainname">${d.name}</div>
-    <div class="strainlab">${d.lab} · ${d.code}</div></th>`; });
+    <div class="strainlab">${d.lab} \u00b7 ${d.code}</div></th>`; });
   html+=`</tr></thead><tbody>`;
   ROWS.forEach(r=>{
     html+=`<tr><td class="rowlabel">${r.label}</td>`;
@@ -576,12 +624,14 @@ function openCompare(){
       let v='';
       if(r.k==='badges') v=`<span class="minibadge">${d.form}</span> ${d.family}`;
       else if(r.k==='character') v=d.character;
-      else if(r.k==='atten') v=`${d.attenLow}–${d.attenHigh}%`;
-      else if(r.k==='temp') v=`${d.tempLow}–${d.tempHigh}°F`;
-      else if(r.k==='floc') v=`${d.flocText} ${'●'.repeat(d.floc)}${'○'.repeat(5-d.floc)}`;
-      else if(r.k==='haze') v=`${HAZE_WORDS[d.haze]} ${'●'.repeat(d.haze)}${'○'.repeat(5-d.haze)}`;
+      else if(r.k==='atten') v=`${d.attenLow}\u2013${d.attenHigh}%`;
+      else if(r.k==='temp') v=`${d.tempLow}\u2013${d.tempHigh}\u00b0F`;
+      else if(r.k==='floc') v=`${d.flocText} ${'\u25cf'.repeat(d.floc)}${'\u25cb'.repeat(5-d.floc)}`;
+      else if(r.k==='haze') v=`${HAZE_WORDS[d.haze]} ${'\u25cf'.repeat(d.haze)}${'\u25cb'.repeat(5-d.haze)}`;
       else if(r.k==='use') v=d.use.map(u=>USE_LABEL[u]).join(', ');
-      else if(r.k==='note') v=d.note||'—';
+      else if(r.k==='price') v=d.price+(d.approx?' (approx)':'');
+      else if(r.k==='note') v=d.note||'\u2014';
+      else if(r.k==='shop') v=`<a class="shoplink" href="${d.url}" target="_blank" rel="noopener" style="--cellfam:${FAM[d.family]}">View at shop \u2197</a>`;
       html+=`<td class="cell" style="--cellfam:${FAM[d.family]}">${v}</td>`;
     });
     html+=`</tr>`;
@@ -591,13 +641,11 @@ function openCompare(){
   document.getElementById('modal').classList.add('show');
 }
 
-/* ---------- legend ---------- */
 function buildLegend(){
   document.getElementById('legend').innerHTML=Object.entries(FAM).map(([name,c])=>
     `<span><i style="background:${c}"></i>${name}</span>`).join('');
 }
 
-/* ---------- wire up ---------- */
 document.getElementById('usecasePills').addEventListener('click',e=>{
   if(!e.target.classList.contains('usecase'))return;
   document.querySelectorAll('.pill.usecase').forEach(p=>p.classList.remove('on'));
