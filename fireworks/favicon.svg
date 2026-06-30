@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Dark background -->
+  <rect width="32" height="32" rx="6" fill="#0a0a1a"/>
+  <!-- Burst center -->
+  <circle cx="16" cy="14" r="2" fill="#fff"/>
+  <!-- Burst rays -->
+  <g stroke-linecap="round" stroke-width="1.5">
+    <line x1="16" y1="4"  x2="16" y2="10" stroke="#ff4444"/>
+    <line x1="16" y1="18" x2="16" y2="24" stroke="#ff4444"/>
+    <line x1="6"  y1="14" x2="12" y2="14" stroke="#ffaa00"/>
+    <line x1="20" y1="14" x2="26" y2="14" stroke="#ffaa00"/>
+    <line x1="9"  y1="7"  x2="13" y2="11" stroke="#ff88cc"/>
+    <line x1="19" y1="17" x2="23" y2="21" stroke="#ff88cc"/>
+    <line x1="23" y1="7"  x2="19" y2="11" stroke="#44aaff"/>
+    <line x1="9"  y1="17" x2="13" y2="21" stroke="#44aaff"/>
+  </g>
+  <!-- Sparkle dots -->
+  <circle cx="16" cy="4"  r="1.5" fill="#ff4444"/>
+  <circle cx="16" cy="24" r="1.5" fill="#ff4444"/>
+  <circle cx="6"  cy="14" r="1.5" fill="#ffaa00"/>
+  <circle cx="26" cy="14" r="1.5" fill="#ffaa00"/>
+  <circle cx="9"  cy="7"  r="1.5" fill="#ff88cc"/>
+  <circle cx="23" cy="21" r="1.5" fill="#ff88cc"/>
+  <circle cx="23" cy="7"  r="1.5" fill="#44aaff"/>
+  <circle cx="9"  cy="21" r="1.5" fill="#44aaff"/>
+</svg>
